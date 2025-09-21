@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Happy Birthday Byron!</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            color: #333;
+            text-align: center;
+            overflow-x: hidden;
+        }
+        h1 {
+            font-size: 3em;
+            margin-top: 40px;
+            color: #ff6f61;
+            text-shadow: 2px 2px 8px #fff, 0 0 10px #ff6f61;
+            animation: bounce 2s infinite;
+        }
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0);}
+            50% { transform: translateY(-20px);}
+        }
+        .cake {
+            margin: 40px auto 20px auto;
+            width: 180px;
+            height: 140px;
+            position: relative;
+        }
+        .cake-base {
+            width: 180px;
+            height: 80px;
+            background: #ffe066;
+            border-radius: 0 0 30px 30px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+            position: absolute;
+            bottom: 0;
+            left: 0;
+        }
+        .cake-top {
+            width: 180px;
+            height: 40px;
+            background: #ff6f61;
+            border-radius: 30px 30px 0 0;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+        .candles {
+            position: absolute;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 18px;
+        }
+        .candle {
+            width: 10px;
+            height: 35px;
+            background: #fff;
+            border-radius: 5px;
+            position: relative;
+        }
+        .candle-flame {
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 14px;
+            height: 14px;
+            background: radial-gradient(circle, #ffeb3b 60%, #ff9800 100%);
+            border-radius: 50%;
+            animation: flicker 0.7s infinite alternate;
+        }
+        @keyframes flicker {
+            0% { opacity: 1; transform: scale(1);}
+            100% { opacity: 0.7; transform: scale(1.2);}
+        }
+        .message {
+            font-size: 1.5em;
+            margin: 30px auto 10px auto;
+            max-width: 500px;
+            background: rgba(255,255,255,0.7);
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 4px 16px rgba(255,111,97,0.15);
+        }
+        .byron-img {
+            margin: 30px auto 10px auto;
+            width: 160px;
+            height: 160px;
+            border-radius: 50%;
+            object-fit: cover;
+            box-shadow: 0 4px 24px rgba(255,111,97,0.3);
+            border: 6px solid #ffe066;
+        }
+        .confetti {
+            position: fixed;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            width: 100vw;
+            height: 100vh;
+            z-index: 999;
+        }
+    </style>
+</head>
+<body>
+    <h1>🎉 Happy Birthday Byron! 🎉</h1>
+    <div class="cake">
+        <div class="cake-top"></div>
+        <div class="cake-base"></div>
+        <div class="candles">
+            <div class="candle"><div class="candle-flame"></div></div>
+            <div class="candle"><div class="candle-flame"></div></div>
+            <div class="candle"><div class="candle-flame"></div></div>
+        </div>
+    </div>
+    <div class="message">
+        Wishing you the most awesome birthday, Byron!<br>
+        May your year be filled with wild adventures, epic wins, and endless happiness.<br>
+        You deserve all the cake, confetti, and good vibes today and always!<br>
+        <span style="font-size:2em;">🎂🥳🎈</span>
+    </div>
+    <!-- Replace the src below with Byron's photo if you have one -->
+    <img src="C:\Users\CLIENT\Desktop\G\byron.jpg" width="300" height="400">
+    <canvas class="confetti"></canvas>
+    <script>
+        // Simple confetti animation
+        const canvas = document.querySelector('.confetti');
+        const ctx = canvas.getContext('2d');
+        let W = window.innerWidth;
+        let H = window.innerHeight;
+        canvas.width = W;
+        canvas.height = H;
+        const confs = [];
+        for(let i=0;i<120;i++){
+            confs.push({
+                x: Math.random()*W,
+                y: Math.random()*H,
+                r: Math.random()*8+4,
+                d: Math.random()*Math.PI*2,
+                color: `hsl(${Math.random()*360},80%,60%)`,
+                tilt: Math.random()*10-5,
+                tiltAngle: Math.random()*Math.PI*2
+            });
+        }
+        function drawConfetti(){
+            ctx.clearRect(0,0,W,H);
+            confs.forEach(c=>{
+                ctx.beginPath();
+                ctx.ellipse(c.x, c.y, c.r, c.r/2, c.tilt, 0, Math.PI*2);
+                ctx.fillStyle = c.color;
+                ctx.fill();
+            });
+        }
+        function updateConfetti(){
+            confs.forEach(c=>{
+                c.y += Math.cos(c.d)+2;
+                c.x += Math.sin(c.d);
+                c.tiltAngle += 0.1;
+                c.tilt = Math.sin(c.tiltAngle)*5;
+                if(c.y>H){
+                    c.y = -10;
+                    c.x = Math.random()*W;
+                }
+            });
+        }
+        function loop(){
+            drawConfetti();
+            updateConfetti();
+            requestAnimationFrame(loop);
+        }
+        loop();
+        window.addEventListener('resize',()=>{
+            W = window.innerWidth;
+            H = window.innerHeight;
+            canvas.width = W;
+            canvas.height = H;
+        });
+    </script>
+</body>
+</html>
